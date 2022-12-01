@@ -9,6 +9,7 @@ const db = client.db('fitnessTrainer')
 export const dateCollection = db.collection<DateType>('date')
 export const timeCollection = db.collection<TimeType>('time')
 export const trainingSessionCollection = db.collection<TrainingType>('training-sessions')
+export const clientCollection = db.collection<any>('client')
 
 export async function runDb (){
     try{

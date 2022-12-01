@@ -4,16 +4,17 @@ import {datesRouter} from "./routes/dates-router";
 import {timesRouter} from "./routes/times-router";
 import {trainingSessionRouter} from "./routes/trainingSession-router";
 import {runDb} from "./repositories/db";
+import {clientRouter} from "./routes/client-router";
 
 const app = express()
 const port = 3000
-
 const parserMiddleware = bodyParser({})
 app.use(parserMiddleware)
 
 app.use('/dates', datesRouter)
 app.use('/times', timesRouter)
 app.use('/trainingSession', trainingSessionRouter)
+app.use('/clients', clientRouter)
 
 const startApp = async () => {
     await runDb()

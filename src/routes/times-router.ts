@@ -1,11 +1,12 @@
 import {Request, Response, Router} from "express";
 import {TimeType} from "../stateTypes";
 import {timesService} from "../domain/times-service";
+import {timesRepository} from "../repositories/times/times-db-repository";
 
 export const timesRouter = Router()
 
 timesRouter.get('/', async (req: Request, res: Response) => {
-    const allTimes = await timesService.getAllTimes()
+    const allTimes = await timesRepository.getAllTimes(req.query.dateId as string)
     res.send(allTimes)
 })
 timesRouter.get('/:timeId', async (req: Request, res: Response) => {
@@ -13,7 +14,7 @@ timesRouter.get('/:timeId', async (req: Request, res: Response) => {
     time ? res.send(time) : res.send(404)
 })
 timesRouter.post('/', async (req: Request, res: Response) => {
-    const newTime: TimeType = await timesService.createTime(req.body.timeId, req.body.timeTitle)
+    const newTime: TimeType = await timesService.createTime(req.body.timeId, req.body.timeTitle, req.body.dateId)
     res.status(201).send(newTime)
 })
 timesRouter.put('/:timeId', async (req: Request, res: Response) => {

@@ -16,6 +16,7 @@ datesRouter.get('/:dateId', async (req: Request, res: Response) => {
     const date: DateType | null = await datesService.getDatesById(req.params.dateId)
     date ? res.send(date) : res.send(404)
 })
+
 datesRouter.delete('/:dateId', async (req: Request, res: Response) => {
     const isDeletedDate: boolean = await datesService.deleteDates(req.params.dateId)
     isDeletedDate ? res.send(204) : res.send(404)

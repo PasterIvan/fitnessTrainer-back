@@ -3,7 +3,10 @@ import {timeCollection} from "../db";
 import {DeleteResult, UpdateResult} from "mongodb";
 
 export const timesRepository = {
-    async getAllTimes(): Promise<TimeType[]>{
+    async getAllTimes(dateId:string | string[] | undefined): Promise<TimeType[]>{
+       if (dateId){
+           return await timeCollection.find({dateId}).toArray()
+       }
         return await timeCollection.find({}).toArray()
     },
     async getTime(timeId: string): Promise<TimeType | null> {
