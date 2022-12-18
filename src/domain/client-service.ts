@@ -1,17 +1,18 @@
-import {DateType} from "../stateTypes";
+import {ClientType} from "../stateTypes";
 import {clientRepository} from "../repositories/client/client-db-repository";
+import {randomUUID} from "crypto";
 
 export const clientService = {
-    async getAllClients(): Promise<DateType[]>{
-        return clientRepository.getAllClients()
+    async getAllClients(clientName: string): Promise<ClientType[] | ClientType>{
+        return clientRepository.getAllClients(clientName)
     },
 
-    async createClient(clientId: string): Promise<any>{
-        const newClient = {clientId: clientId}
+    async createClient(clientName: string): Promise<ClientType>{
+        const newClient = {clientName: clientName, clientId: randomUUID()}
         return clientRepository.createClient(newClient)
     },
 
-    async getClientById(clientId: string): Promise<any | null>{
+    async getClientById(clientId: string): Promise<ClientType | null>{
         return clientRepository.getClientById(clientId)
     },
 

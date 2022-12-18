@@ -2,7 +2,7 @@ import express from 'express'
 import bodyParser from "body-parser";
 import {datesRouter} from "./routes/dates-router";
 import {timesRouter} from "./routes/times-router";
-import {trainingSessionRouter} from "./routes/trainingSession-router";
+import {trainingRouter} from "./routes/training-router";
 import {runDb} from "./repositories/db";
 import {clientRouter} from "./routes/client-router";
 
@@ -13,7 +13,7 @@ app.use(parserMiddleware)
 
 app.use('/dates', datesRouter)
 app.use('/times', timesRouter)
-app.use('/trainingSession', trainingSessionRouter)
+app.use('/training', trainingRouter)
 app.use('/clients', clientRouter)
 
 const startApp = async () => {

@@ -1,25 +1,26 @@
-import {clientCollection} from "../db";
+import {dateCollection} from "../db";
 import {DeleteResult} from "mongodb";
+import {DateType} from "../../stateTypes";
 
 export const datesRepository = {
-    async getAllDates(): Promise<any>{
-        return await clientCollection.find({}).toArray()
+    async getAllDates(): Promise<DateType[]>{
+        return await dateCollection.find({}).toArray()
     },
 
-    async createDate(newClient: any): Promise<any>{
-        const result = await clientCollection.insertOne(newClient)
-        return newClient
+    async createDate(newDate: any): Promise<DateType>{
+        const result = await dateCollection.insertOne(newDate)
+        return newDate
     },
 
-    async getDatesById(clientId: string): Promise<any | null>{
-        const client: any | null = await clientCollection.findOne({clientId})
-        if (client){
-            return client
+    async getDatesById(dateId: string): Promise<DateType | null>{
+        const date: DateType | null = await dateCollection.findOne({dateId})
+        if (date){
+            return date
         } return null
     },
 
-    async deleteDates(clientId: string): Promise<boolean>{
-        const result: DeleteResult = await clientCollection.deleteOne({clientId})
+    async deleteDates(dateId: string): Promise<boolean>{
+        const result: DeleteResult = await dateCollection.deleteOne({dateId})
         return result.deletedCount === 1
     }
 }
