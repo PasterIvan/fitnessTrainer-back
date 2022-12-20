@@ -1,12 +1,13 @@
 import {Request, Response, Router} from "express";
-import {TimeType, TrainingType} from "../stateTypes";
+import {TimeType, TimeTypeWithFront, TrainingType} from "../stateTypes";
 import {trainingService} from "../domain/training-service";
 import {timesService} from "../domain/times-service";
+import {timesQeryRepository} from "../repositories/times/timesQery-db-repository";
 
 export const trainingRouter = Router()
 
 trainingRouter.get('/', async (req: Request, res: Response) => {
-    const allTrainingSessions: TrainingType[] = await trainingService.getTrainingById(req.query.trainingId as string)
+    const allTrainingSessions: TrainingType[] = await trainingService.getTrainingsById(req.query.trainingId as string)
     res.send(allTrainingSessions)
 })
 trainingRouter.post('/', async (req: Request, res: Response) => {
@@ -18,8 +19,21 @@ trainingRouter.post('/', async (req: Request, res: Response) => {
     const isNewTimeWithTraining: boolean = await timesService.writeTraining(timeId, trainingId)
 
     if (isNewTimeWithTraining){
-        const allTimes: TimeType[] = await timesService.getAllTimes(dateId)
+        const allTimes: TimeTypeWithFront[] = await timesQeryRepository.getTimes(dateId)
         res.status(201).send(allTimes)
+    } else {
+        res.send(404)
+    }
+})
+trainingRouter.put('/:trainingId', async (req: Request, res: Response) => {
+    const trainingId = req.body.data.trainingId
+    const trainingDescription = req.body.data.trainingDescription
+
+    const isNewTrainingDescription: boolean = await trainingService.addTrainingDescription(trainingId, trainingDescription)
+
+    if (isNewTrainingDescription){
+        const Training: TrainingType | null = await trainingService.getTrainingById(trainingId)
+        res.status(201).send(Training)
     } else {
         res.send(404)
     }

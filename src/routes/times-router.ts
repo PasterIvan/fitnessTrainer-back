@@ -1,17 +1,18 @@
 import {Request, Response, Router} from "express";
-import {TimeType} from "../stateTypes";
+import {TimeType, TimeTypeWithFront} from "../stateTypes";
 import {timesService} from "../domain/times-service";
+import {timesQeryRepository} from "../repositories/times/timesQery-db-repository";
 
 export const timesRouter = Router()
 
 timesRouter.get('/', async (req: Request, res: Response) => {
-    const allTimes: TimeType[] = await timesService.getAllTimes(req.query.dateId as string)
+    const allTimes: TimeTypeWithFront[] = await timesQeryRepository.getTimes(req.query.dateId as string)
     allTimes.length === 0
         ? res.send(await timesService.createTimes(req.query.dateId as string))
         : res.send(allTimes)
 })
 timesRouter.get('/:timeId', async (req: Request, res: Response) => {
-    const time: TimeType | null = await timesService.getTime(req.params.timeId)
+    const time: TimeType | null = await timesQeryRepository.getTime(req.params.timeId)
     time ? res.send(time) : res.send(404)
 })
 // timesRouter.put('/', async (req: Request, res: Response) => {
@@ -33,7 +34,7 @@ timesRouter.put('/', async (req: Request, res: Response) => {
     // const isNewTimeWithTraining: boolean = await timesService.writeTraining(timeId, trainingId)
 
     if (isNewTimeWithClient){
-        const allTimes: TimeType[] = await timesService.getAllTimes(dateId)
+        const allTimes: TimeTypeWithFront[] = await timesQeryRepository.getTimes(dateId)
         res.status(201).send(allTimes)
     } else {
         res.send(404)

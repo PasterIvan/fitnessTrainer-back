@@ -5,7 +5,14 @@ export type DateType = {
 export type TimeType = {
     timeId: string
     timeTitle: string
-    dateId?: string
+    dateId: string
+    clientId?: string
+    trainingId?: string
+}
+export type TimeTypeWithFront = {
+    timeId: string
+    timeTitle: string
+    dateId: string
     client?: ClientType
     training?: TrainingType
 }

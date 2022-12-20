@@ -1,4 +1,4 @@
-import {ClientType, TimeType, TrainingType} from "../../stateTypes";
+import {ClientType, TimeType, TimeTypeWithFront, TrainingType} from "../../stateTypes";
 import {timeCollection} from "../db";
 import {DeleteResult, UpdateResult} from "mongodb";
 import {randomUUID} from "crypto";
@@ -90,16 +90,16 @@ export const timesRepository = {
         }
         return await timeCollection.find({}).toArray()
     },
-    async writeClient(timeId: string, client: ClientType): Promise<boolean>{
+    async writeClient(timeId: string, clientId: string): Promise<boolean>{
         const result: UpdateResult = await timeCollection.updateOne(
             {timeId},
-            { $set: {client: client}})
+            { $set: {clientId: clientId}})
         return result.matchedCount === 1
     },
-    async writeTraining(timeId: string, training: TrainingType): Promise<boolean>{
+    async writeTraining(timeId: string, trainingId: string): Promise<boolean>{
         const result: UpdateResult = await timeCollection.updateOne(
             {timeId},
-            { $set: {training: training}})
+            { $set: {trainingId: trainingId}})
         return result.matchedCount === 1
     },
     async updateTime(timeId: string, newTimeTitle: string): Promise<boolean>{
