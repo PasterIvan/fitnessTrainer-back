@@ -23,7 +23,7 @@ export const clientRepository = {
     },
 
     async getClientById(clientId: string): Promise<ClientType | null>{
-        const client: any | null = await clientCollection.findOne({clientId})
+        const client: ClientType | null = await clientCollection.findOne({clientId})
         if (client){
             return client
         } return null

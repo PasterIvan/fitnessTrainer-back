@@ -1,12 +1,14 @@
 import {ClientType, TimeType, TimeTypeWithFront, TrainingType} from "../../stateTypes";
 import {clientCollection, timeCollection, trainingCollection} from "../db";
 
-export const timesQeryRepository = {
+export const timesQueryRepository = {
     async getTimes(dateId: string): Promise<TimeTypeWithFront[]> {
         const times: TimeType[] = await timeCollection.find({dateId}).toArray()
-        const arrClientID = times.filter(client => client.clientId).map(client=>client.clientId)
-        const arrTrainingID = times.filter(training => training.trainingId).map(training=>training.trainingId)
+        const arrClientID: (string | undefined)[] = times.filter(client => client.clientId).map(client=>client.clientId)
+        const arrTrainingID: (string | undefined)[] = times.filter(training => training.trainingId).map(training=>training.trainingId)
+        // @ts-ignore
         const clients: ClientType[] = await clientCollection.find({clientId: {$in: arrClientID}}).toArray()
+        // @ts-ignore
         const trainings: TrainingType[] = await trainingCollection.find({trainingId: {$in: arrTrainingID}}).toArray()
 
         return times.map(time => {

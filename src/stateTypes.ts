@@ -25,11 +25,26 @@ export type TrainingType = {
     trainingId: string;
     trainingTitle: string;
     trainingDescription?: string;
+    exercisesId?: string[];
+}
+export type TrainingTypeWithFront = {
+    trainingId: string;
+    trainingTitle: string;
+    trainingDescription?: string;
     exercises?: ExerciseType[];
 }
 export type ExerciseType = {
-    exerciseId: string
-    exerciseName: string
-    exerciseDescription: string
+    exerciseId: string;
+    exerciseName: string;
+    exerciseDescription?: string;
+    isDone: ExerciseStatuses;
 }
+export enum ExerciseStatuses {
+    New,
+    InProgress,
+    Completed,
+    Draft,
+}
+
+
 

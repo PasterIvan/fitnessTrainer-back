@@ -1,8 +1,9 @@
 import {Request, Response, Router} from "express";
-import {TimeType, TimeTypeWithFront, TrainingType} from "../stateTypes";
+import {TimeTypeWithFront, TrainingType, TrainingTypeWithFront} from "../stateTypes";
 import {trainingService} from "../domain/training-service";
 import {timesService} from "../domain/times-service";
-import {timesQeryRepository} from "../repositories/times/timesQery-db-repository";
+import {timesQueryRepository} from "../repositories/times/timesQuery-db-repository";
+import {trainingQueryRepository} from "../repositories/trainingSession/trainingQuery-db-repository";
 
 export const trainingRouter = Router()
 
@@ -10,6 +11,14 @@ trainingRouter.get('/', async (req: Request, res: Response) => {
     const allTrainingSessions: TrainingType[] = await trainingService.getTrainingsById(req.query.trainingId as string)
     res.send(allTrainingSessions)
 })
+
+trainingRouter.get('/:trainingId', async (req: Request, res: Response) => {
+
+    const training: TrainingTypeWithFront | null = await trainingQueryRepository.getTraining(req.params.trainingId)
+
+    training ? res.send(training) : res.send(404)
+})
+
 trainingRouter.post('/', async (req: Request, res: Response) => {
     const training: TrainingType = await trainingService.createTraining(req.body.data.trainingTitle)
 
@@ -19,7 +28,7 @@ trainingRouter.post('/', async (req: Request, res: Response) => {
     const isNewTimeWithTraining: boolean = await timesService.writeTraining(timeId, trainingId)
 
     if (isNewTimeWithTraining){
-        const allTimes: TimeTypeWithFront[] = await timesQeryRepository.getTimes(dateId)
+        const allTimes: TimeTypeWithFront[] = await timesQueryRepository.getTimes(dateId)
         res.status(201).send(allTimes)
     } else {
         res.send(404)

@@ -16,4 +16,7 @@ export const trainingService = {
     async addTrainingDescription(trainingId: string, trainingDescription: string): Promise<boolean>{
         return trainingRepository.createTrainingDescription(trainingId, trainingDescription)
     },
+    async writeExercise(trainingId: string, exerciseId: string): Promise<boolean>{
+        return trainingRepository.writeExercise(trainingId, exerciseId)
+    },
 }

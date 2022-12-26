@@ -1,12 +1,10 @@
 import {timesRepository} from "../repositories/times/times-db-repository";
-import {ClientType, TimeType, TimeTypeWithFront} from "../stateTypes";
-import {timesQeryRepository} from "../repositories/times/timesQery-db-repository";
-import {clientRepository} from "../repositories/client/client-db-repository";
-import {trainingRepository} from "../repositories/trainingSession/training-db-repository";
+import {TimeType, TimeTypeWithFront} from "../stateTypes";
+import {timesQueryRepository} from "../repositories/times/timesQuery-db-repository";
 
 export const timesService = {
     async getAllTimes(dateId: string ): Promise<TimeTypeWithFront[]>{
-        return timesQeryRepository.getTimes(dateId)
+        return timesQueryRepository.getTimes(dateId)
     },
     async getTime(timeId: string): Promise<TimeType | null> {
         return timesRepository.getTime(timeId)

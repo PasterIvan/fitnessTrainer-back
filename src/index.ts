@@ -5,6 +5,7 @@ import {timesRouter} from "./routes/times-router";
 import {trainingRouter} from "./routes/training-router";
 import {runDb} from "./repositories/db";
 import {clientRouter} from "./routes/client-router";
+import {exerciseRouter} from "./routes/exercise-router";
 
 const app = express()
 const port = 3000
@@ -15,6 +16,7 @@ app.use('/dates', datesRouter)
 app.use('/times', timesRouter)
 app.use('/training', trainingRouter)
 app.use('/clients', clientRouter)
+app.use('/exercise', exerciseRouter)
 
 const startApp = async () => {
     await runDb()

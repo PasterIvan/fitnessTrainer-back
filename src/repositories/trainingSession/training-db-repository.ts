@@ -1,5 +1,5 @@
 import {TrainingType} from "../../stateTypes";
-import {timeCollection, trainingCollection} from "../db";
+import {trainingCollection} from "../db";
 import {UpdateResult} from "mongodb";
 
 export const trainingRepository = {
@@ -17,6 +17,12 @@ export const trainingRepository = {
         const result: UpdateResult = await trainingCollection.updateOne(
             {trainingId},
             { $set: {trainingDescription: trainingDescription}})
+        return result.matchedCount === 1
+    },
+    async writeExercise(trainingId: string, exerciseId: string): Promise<boolean>{
+        const result: UpdateResult = await trainingCollection.updateOne(
+            {trainingId},
+            { $push: {exercisesId: exerciseId}})
         return result.matchedCount === 1
     },
 
